@@ -3,177 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGig Empire - Official</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>RGig Empire - Live</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --black: #0a0a0a; --gray: #1a1a1a; --green: #2ecc71; }
-        body { background: var(--black); color: white; font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 70px; overflow-x: hidden; }
-        
-        /* شريط الأخبار العالمي */
-        .ticker-wrap { background: #000; color: var(--gold); padding: 8px; font-size: 12px; border-bottom: 1px solid var(--gold); overflow: hidden; }
-        .ticker { display: inline-block; white-space: nowrap; animation: scroll 30s linear infinite; }
-        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--gray); border-bottom: 2px solid var(--gold); }
-        .balance-card { background: linear-gradient(145deg, #1e1e1e, #111); padding: 10px 20px; border-radius: 15px; border: 1px solid var(--gold); text-align: center; }
-
-        .page { display: none; padding: 15px; animation: fadeIn 0.5s; }
+        :root { --gold: #d4af37; --black: #0a0a0a; }
+        body { background: var(--black); color: white; font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 70px; }
+        .ticker { background: #000; color: var(--gold); padding: 8px; font-size: 12px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid var(--gold); }
+        .ticker-text { display: inline-block; animation: scroll 20s linear infinite; }
+        @keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .header { display: flex; justify-content: space-between; padding: 15px; background: #1a1a1a; border-bottom: 2px solid var(--gold); }
+        .page { display: none; padding: 15px; }
         .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .card { background: var(--gray); padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #333; position: relative; overflow: hidden; }
-        .card::after { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--gold); }
-
-        /* منطقة التعدين */
-        .mine-container { text-align: center; padding: 30px 0; }
-        .main-logo { width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); cursor: pointer; transition: 0.1s; }
-        .main-logo:active { transform: scale(0.9); }
-
-        /* توليد الـ NFT */
-        .nft-preview { width: 100%; height: 200px; background: #000; border-radius: 15px; display: flex; align-items: center; justify-content: center; position: relative; border: 2px dashed var(--gold); }
-        .nft-art { width: 120px; filter: drop-shadow(0 0 15px var(--gold)); animation: rotate 5s infinite linear; }
-        @keyframes rotate { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-
-        .price-up { color: var(--green); font-family: monospace; }
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--gold); }
-        .nav-item { color: #666; font-size: 12px; cursor: pointer; text-align: center; }
-        .nav-item.active-nav { color: var(--gold); font-weight: bold; }
-        
-        button { background: var(--gold); color: black; border: none; padding: 12px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 10px; }
+        .card { background: #1a1a1a; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-right: 4px solid var(--gold); }
+        .main-btn { width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--gold); cursor: pointer; transition: 0.1s; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .main-btn:active { transform: scale(0.9); }
+        .nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--gold); }
+        .nav-item { color: #666; font-size: 11px; text-align: center; }
+        .active-nav { color: var(--gold); font-weight: bold; }
+        .nft-img { width: 100px; filter: drop-shadow(0 0 10px var(--gold)); animation: float 3s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-<div class="ticker-wrap">
-    <div class="ticker">
-        🌍 أخبار الكريبتو: بيتكوين يخترق حاجز $103,000 .. 🚀 شبكة TON تسجل نمواً بنسبة 400% .. 💎 عملة RGig تدخل مرحلة التعدين النهائية .. ⚠️ ندرة GIG-Dust تزداد مع كل نقرة ..
-    </div>
-</div>
+<div class="ticker"><div class="ticker-text">🔥 BTC: $103,450 | 💎 RGig Price: $0.00015 | 🚀 Season 1 Live | ⚠️ Total Supply: 1,000,000 GIG</div></div>
 
 <div class="header">
-    <div class="balance-card">
-        <span style="font-size: 12px; color: #888;">رصيدك الإمبراطوري</span><br>
-        <span id="bal" style="font-size: 20px; color: var(--gold); font-weight: bold;">0.0000</span> <small>RGig</small>
-    </div>
-    <button onclick="connectWallet()" style="width: auto; padding: 8px 15px; background: #24A1DE; color: white;">ربط المحفظة</button>
+    <div>💰 <span id="bal" style="color:var(--gold)">0.0000</span> RGig</div>
+    <button style="background:#24A1DE; color:white; border:none; padding:5px 10px; border-radius:8px; font-size:10px;">ربط المحفظة</button>
 </div>
 
-<div id="p1" class="page active">
-    <div class="mine-container">
-        <img src="logo.png" class="main-logo" id="logoBtn" onclick="mine(event)" onerror="this.src='https://i.imgur.com/8L8T76z.png'">
-        <h2 style="color: var(--gold);">إمبراطورية RGig</h2>
-        <p style="color: #666;">انقر على الشعار لاستخراج الغبار الذهبي</p>
-    </div>
+<div id="h" class="page active" style="text-align:center;">
+    <img src="logo.png" class="main-btn" onclick="mine(event)" onerror="this.src='https://i.imgur.com/8L8T76z.png'">
+    <p>انقر لاستخراج غبار الجيج</p>
+    <div class="card">⚡ الطاقة: <span id="eng">100</span>/100</div>
+</div>
+
+<div id="m" class="page">
+    <h3>📊 الأسعار الحية مقابل الدولار</h3>
+    <div class="card">Bitcoin (BTC) <span style="float:left; color:#2ecc71;">$103,450</span></div>
+    <div class="card">Ethereum (ETH) <span style="float:left; color:#2ecc71;">$4,820</span></div>
+    <div class="card">RGig (GIG) <span style="float:left; color:var(--gold);">$0.00015</span></div>
+</div>
+
+<div id="n" class="page" style="text-align:center;">
+    <h3>🔱 مزاد بطاقات المحاربين</h3>
     <div class="card">
-        <span>⚡ الطاقة الملكية: <b id="eng">100</b>/100</span>
-        <div style="background: #333; height: 8px; border-radius: 4px; margin-top: 10px;">
-            <div id="engBar" style="background: var(--gold); width: 100%; height: 100%; border-radius: 4px; transition: 0.3s;"></div>
-        </div>
+        <img src="logo.png" class="nft-img" id="nftArt">
+        <h4 id="nftName">بطاقة المحارب #???</h4>
+        <button onclick="mintNFT()" style="background:var(--gold); border:none; padding:10px; border-radius:10px; width:100%; font-weight:bold;">توليد NFT جديد (1.0 RGig)</button>
     </div>
 </div>
 
-<div id="p2" class="page">
-    <h3>📊 بورصة العملات (مقابل USD)</h3>
-    <div class="card"><span>Bitcoin (BTC)</span> <span class="price-up" style="float:left;">$103,240.50</span></div>
-    <div class="card"><span>Ethereum (ETH)</span> <span class="price-up" style="float:left;">$4,812.10</span></div>
-    <div class="card"><span>TON Coin</span> <span class="price-up" style="float:left;">$7.45</span></div>
-    <div class="card" style="border-right-color: var(--green);">
-        <strong>تحويل RGig إلى USD</strong>
-        <p style="font-size: 12px;">سعر الصرف التقديري: 1 RGig = $0.50</p>
-        <button onclick="alert('يفتح التحويل عند الوصول لـ 50 RGig')">طلب سحب الأرباح</button>
-    </div>
-</div>
-
-<div id="p3" class="page">
-    <h3>🔱 توليد وتعدين NFT</h3>
-    <div class="card" id="nftCard">
-        <div class="nft-preview">
-            <img src="logo.png" class="nft-art" id="nftImg" onerror="this.src='https://i.imgur.com/8L8T76z.png'">
-        </div>
-        <div style="text-align: center; margin-top: 15px;">
-            <strong id="nftName">بطاقة المحارب #000</strong>
-            <p id="nftRarity" style="font-size: 12px; color: var(--gold);">نادر جداً</p>
-            <button onclick="generateNFT()">توليد NFT جديد (1.0 RGig)</button>
-        </div>
-    </div>
-</div>
-
-<div id="p4" class="page">
-    <h3>🤝 عهد السراديب</h3>
-    <div class="card">
-        <strong>📜 الورقة البيضاء (الدستور)</strong>
-        <p style="font-size: 13px; color: #aaa;">نحن نبنى اقتصاداً لا مركزيًا يعتمد على جهدك الشخصي. غبار الجيج (GIG-Dust) هو وقود المستقبل.</p>
-        <button onclick="alert('خارطة الطريق: إطلاق المنصة -> 10k مستخدم -> إدراج العملة')">قراءة الدستور كاملًا</button>
-    </div>
-    <div class="card">
-        <strong>✈️ قنوات التواصل</strong>
-        <button style="background: #0088cc; color: white;" onclick="window.location.href='https://t.me/YourChannel'">قناة التليجرام الرسمية</button>
-    </div>
-</div>
-
-<div class="nav-bar">
-    <div class="nav-item active-nav" onclick="nav('p1', this)">🏠 العرين</div>
-    <div class="nav-item" onclick="nav('p2', this)">📊 التداول</div>
-    <div class="nav-item" onclick="nav('p3', this)">🔱 المزاد</div>
-    <div class="nav-item" onclick="nav('p4', this)">🤝 العهد</div>
+<div class="nav">
+    <div class="nav-item active-nav" onclick="sw('h',this)">🏠 العرين</div>
+    <div class="nav-item" onclick="sw('m',this)">📊 التداول</div>
+    <div class="nav-item" onclick="sw('n',this)">🔱 المزاد</div>
 </div>
 
 <script>
-    let rgig = parseFloat(localStorage.getItem('rgig')) || 0;
-    let energy = 100;
-
-    function mine(e) {
-        if(energy > 0) {
-            rgig += 0.0001;
-            energy -= 1;
-            updateUI();
-            showPlus(e);
-        } else { alert("استرح قليلاً أيها المحارب!"); }
+    let b = parseFloat(localStorage.getItem('b')) || 0;
+    let e = 100;
+    function mine(ev) {
+        if(e > 0) { b += 0.0001; e -= 1; up(); }
     }
-
-    function updateUI() {
-        document.getElementById('bal').innerText = rgig.toFixed(4);
-        document.getElementById('eng').innerText = energy;
-        document.getElementById('engBar').style.width = energy + "%";
-        localStorage.setItem('rgig', rgig);
+    function up() {
+        document.getElementById('bal').innerText = b.toFixed(4);
+        document.getElementById('eng').innerText = e;
+        localStorage.setItem('b', b);
     }
-
-    function nav(id, el) {
+    function sw(id, el) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
         el.classList.add('active-nav');
     }
-
-    function generateNFT() {
-        if(rgig >= 1) {
-            rgig -= 1;
-            const id = Math.floor(Math.random() * 999);
-            const rarities = ["شائع", "نادر", "أسطوري", "ملك السرداب"];
-            const rarity = rarities[Math.floor(Math.random() * rarities.length)];
-            document.getElementById('nftName').innerText = "بطاقة المحارب #" + id;
-            document.getElementById('nftRarity').innerText = rarity;
-            document.getElementById('nftCard').style.borderColor = "cyan";
-            updateUI();
-            alert("مبروك! لقد ولدت NFT جديد!");
-        } else { alert("تحتاج لـ 1.0 RGig لتوليد NFT"); }
+    function mintNFT() {
+        if(b >= 1) {
+            b -= 1; up();
+            document.getElementById('nftName').innerText = "بطاقة المحارب #" + Math.floor(Math.random()*999);
+            alert("مبروك! تم توليد NFT ملكي خاص بك");
+        } else { alert("رصيدك لا يكفي (تحتاج 1.0 RGig)"); }
     }
-
-    function showPlus(e) {
-        let s = document.createElement('span');
-        s.innerText = "+0.0001";
-        s.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; color:var(--gold); font-weight:bold; animation:up 1s forwards;`;
-        document.body.appendChild(s);
-        setTimeout(() => s.remove(), 1000);
-    }
-
-    function connectWallet() {
-        alert("جاري الاتصال بـ TON Keeper... (يتطلب توثيق 500 مستخدم للفتح)");
-    }
-
-    setInterval(() => { if(energy < 100) { energy++; updateUI(); } }, 3000);
+    setInterval(() => { if(e < 100) { e++; up(); } }, 3000);
 </script>
-
-<style> @keyframes up { to { transform: translateY(-50px); opacity: 0; } } </style>
 </body>
 </html>
