@@ -3,149 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGig Empire - Live Economy</title>
+    <title>RGig Empire - Official</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --black: #080808; --gray: #151515; --text: #f0f0f0; --green: #2ecc71; }
-        body { background-color: var(--black); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 80px; overflow-x: hidden; }
+        :root { --gold: #d4af37; --black: #0a0a0a; --gray: #1a1a1a; --green: #2ecc71; }
+        body { background: var(--black); color: white; font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 70px; overflow-x: hidden; }
         
-        /* شريط الأخبار العالمي المتحرك */
-        .ticker-wrap { background: #1a1a1a; color: var(--gold); padding: 6px; font-size: 11px; border-bottom: 1px solid var(--gold); overflow: hidden; }
-        .ticker { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* شريط الأخبار العالمي */
+        .ticker-wrap { background: #000; color: var(--gold); padding: 8px; font-size: 12px; border-bottom: 1px solid var(--gold); overflow: hidden; }
+        .ticker { display: inline-block; white-space: nowrap; animation: scroll 30s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--gray); border-bottom: 2px solid var(--gold); sticky; top: 0; z-index: 1000; }
-        .bal-box { background: rgba(212, 175, 55, 0.1); padding: 5px 15px; border-radius: 20px; border: 1px solid var(--gold); }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--gray); border-bottom: 2px solid var(--gold); }
+        .balance-card { background: linear-gradient(145deg, #1e1e1e, #111); padding: 10px 20px; border-radius: 15px; border: 1px solid var(--gold); text-align: center; }
 
-        .page { display: none; padding: 15px; animation: slideUp 0.3s ease-out; }
+        .page { display: none; padding: 15px; animation: fadeIn 0.5s; }
         .active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card { background: var(--gray); padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #333; border-right: 5px solid var(--gold); }
-        .btn-action { background: var(--gold); color: #000; border: none; padding: 12px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; transition: 0.2s; }
-        .btn-action:active { transform: scale(0.95); }
+        .card { background: var(--gray); padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #333; position: relative; overflow: hidden; }
+        .card::after { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--gold); }
 
-        /* قسم التعدين المحسن */
-        .mine-zone { text-align: center; padding: 40px 20px; border-radius: 30px; background: radial-gradient(circle, #222 0%, #080808 100%); border: 1px solid #333; position: relative; }
-        .main-coin { width: 160px; height: 160px; border-radius: 50%; cursor: pointer; filter: drop-shadow(0 0 20px var(--gold)); transition: 0.1s; }
-        .main-coin:active { transform: scale(0.9); }
+        /* منطقة التعدين */
+        .mine-container { text-align: center; padding: 30px 0; }
+        .main-logo { width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); cursor: pointer; transition: 0.1s; }
+        .main-logo:active { transform: scale(0.9); }
 
-        /* المحفظة والتداول */
-        .price-tag { color: var(--green); font-family: monospace; font-weight: bold; }
+        /* توليد الـ NFT */
+        .nft-preview { width: 100%; height: 200px; background: #000; border-radius: 15px; display: flex; align-items: center; justify-content: center; position: relative; border: 2px dashed var(--gold); }
+        .nft-art { width: 120px; filter: drop-shadow(0 0 15px var(--gold)); animation: rotate 5s infinite linear; }
+        @keyframes rotate { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        .price-up { color: var(--green); font-family: monospace; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--gold); }
+        .nav-item { color: #666; font-size: 12px; cursor: pointer; text-align: center; }
+        .nav-item.active-nav { color: var(--gold); font-weight: bold; }
         
-        .navbar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--gold); }
-        .nav-item { color: #555; font-size: 11px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .nav-item.active-nav { color: var(--gold); transform: translateY(-5px); font-weight: bold; }
+        button { background: var(--gold); color: black; border: none; padding: 12px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="ticker-wrap">
     <div class="ticker">
-        🚀 سعر البيتكوين الآن: $102,450 (▲1.2%) | 💎 RGig Token: العرض المحدود بدأ.. | 📢 انضم لـ 5000+ منقب في مجتمعنا.. | ⚡ GIG-Dust هو مستقبل العملات المصغرة..
+        🌍 أخبار الكريبتو: بيتكوين يخترق حاجز $103,000 .. 🚀 شبكة TON تسجل نمواً بنسبة 400% .. 💎 عملة RGig تدخل مرحلة التعدين النهائية .. ⚠️ ندرة GIG-Dust تزداد مع كل نقرة ..
     </div>
 </div>
 
 <div class="header">
-    <div class="bal-box">💰 <span id="balance" style="color:var(--gold)">0.0036</span> RGig</div>
-    <button onclick="alert('جاري ربط محفظة TON...')" style="background:#0088cc; color:white; border:none; padding:8px 15px; border-radius:10px; font-size:11px;">ربط المحفظة 🔒</button>
+    <div class="balance-card">
+        <span style="font-size: 12px; color: #888;">رصيدك الإمبراطوري</span><br>
+        <span id="bal" style="font-size: 20px; color: var(--gold); font-weight: bold;">0.0000</span> <small>RGig</small>
+    </div>
+    <button onclick="connectWallet()" style="width: auto; padding: 8px 15px; background: #24A1DE; color: white;">ربط المحفظة</button>
 </div>
 
-<div id="home" class="page active">
-    <button onclick="dailyBonus()" class="btn-action" style="margin-bottom:20px; background: linear-gradient(45deg, #d4af37, #f1c40f);">🎁 استلام المكافأة اليومية</button>
-    <div class="mine-zone">
-        <img src="coin.png" class="main-coin" onclick="mine(event)" id="coinImg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2489/2489756.png'">
-        <p style="margin-top:20px; color:#888;">انقر على العملة للتنقيب عن غبار الجيج</p>
-        <div style="font-size:12px; color:var(--gold)">Dust: <span id="dust">26</span></div>
+<div id="p1" class="page active">
+    <div class="mine-container">
+        <img src="logo.png" class="main-logo" id="logoBtn" onclick="mine(event)" onerror="this.src='https://i.imgur.com/8L8T76z.png'">
+        <h2 style="color: var(--gold);">إمبراطورية RGig</h2>
+        <p style="color: #666;">انقر على الشعار لاستخراج الغبار الذهبي</p>
     </div>
-    
-    <div class="card" style="margin-top:20px; border-right-color:#3498db;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-            <span>⚡ وقود الطاقة</span>
-            <span id="energyText">100/100</span>
-        </div>
-        <div style="height:10px; background:#222; border-radius:5px; overflow:hidden;">
-            <div id="energyBar" style="width:100%; height:100%; background:var(--gold); transition:0.3s;"></div>
+    <div class="card">
+        <span>⚡ الطاقة الملكية: <b id="eng">100</b>/100</span>
+        <div style="background: #333; height: 8px; border-radius: 4px; margin-top: 10px;">
+            <div id="engBar" style="background: var(--gold); width: 100%; height: 100%; border-radius: 4px; transition: 0.3s;"></div>
         </div>
     </div>
 </div>
 
-<div id="market" class="page">
-    <h3>📊 أسعار الكريبتو الحية</h3>
-    <div class="card">
-        <strong>Bitcoin (BTC)</strong>
-        <div class="price-tag" style="float:left;">$102,481.50</div>
-    </div>
-    <div class="card">
-        <strong>Ethereum (ETH)</strong>
-        <div class="price-tag" style="float:left;">$4,692.12</div>
-    </div>
-    <div class="card">
-        <strong>RGig (GIG)</strong>
-        <div class="price-tag" style="color:var(--gold); float:left;">$0.00012</div>
-    </div>
-    <div class="card" style="border-right-color:#2ecc71;">
-        <strong>تبادل GIG-Dust مقابل USDT</strong>
-        <p style="font-size:11px; color:#888;">يفتح عند الوصول لـ 1.0 RGig</p>
-        <button class="btn-action" style="background:#2ecc71; color:#fff;" onclick="alert('رصيدك من الغبار لا يكفي للتحويل حالياً')">تبادل الآن</button>
+<div id="p2" class="page">
+    <h3>📊 بورصة العملات (مقابل USD)</h3>
+    <div class="card"><span>Bitcoin (BTC)</span> <span class="price-up" style="float:left;">$103,240.50</span></div>
+    <div class="card"><span>Ethereum (ETH)</span> <span class="price-up" style="float:left;">$4,812.10</span></div>
+    <div class="card"><span>TON Coin</span> <span class="price-up" style="float:left;">$7.45</span></div>
+    <div class="card" style="border-right-color: var(--green);">
+        <strong>تحويل RGig إلى USD</strong>
+        <p style="font-size: 12px;">سعر الصرف التقديري: 1 RGig = $0.50</p>
+        <button onclick="alert('يفتح التحويل عند الوصول لـ 50 RGig')">طلب سحب الأرباح</button>
     </div>
 </div>
 
-<div id="shop" class="page">
-    <h3>🏛️ المزاد والمتجر</h3>
-    <div class="card">
-        <strong>بطاقة "المؤسس الأول" NFT</strong>
-        <p style="font-size:11px;">تمنحك 10% ربح إضافي دائم</p>
-        <button class="btn-action" onclick="alert('المزايدة تبدأ قريباً')">مزايدة (1000 RGig)</button>
-    </div>
-    <div class="card">
-        <strong>مغناطيس الغبار (مستوى 1)</strong>
-        <p style="font-size:11px;">+1 Dust لكل نقرة</p>
-        <button class="btn-action" onclick="buyUpgrade()">تطوير (1.0 RGig)</button>
+<div id="p3" class="page">
+    <h3>🔱 توليد وتعدين NFT</h3>
+    <div class="card" id="nftCard">
+        <div class="nft-preview">
+            <img src="logo.png" class="nft-art" id="nftImg" onerror="this.src='https://i.imgur.com/8L8T76z.png'">
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+            <strong id="nftName">بطاقة المحارب #000</strong>
+            <p id="nftRarity" style="font-size: 12px; color: var(--gold);">نادر جداً</p>
+            <button onclick="generateNFT()">توليد NFT جديد (1.0 RGig)</button>
+        </div>
     </div>
 </div>
 
-<div id="social" class="page">
+<div id="p4" class="page">
     <h3>🤝 عهد السراديب</h3>
-    <div class="card" style="text-align:center;">
-        <p>انضم إلينا لتحقيق الحرية المالية</p>
-        <button class="btn-action" style="background:#0088cc; color:#fff;" onclick="window.location.href='https://t.me/YourChannel'">قناة التليجرام ✈️</button>
+    <div class="card">
+        <strong>📜 الورقة البيضاء (الدستور)</strong>
+        <p style="font-size: 13px; color: #aaa;">نحن نبنى اقتصاداً لا مركزيًا يعتمد على جهدك الشخصي. غبار الجيج (GIG-Dust) هو وقود المستقبل.</p>
+        <button onclick="alert('خارطة الطريق: إطلاق المنصة -> 10k مستخدم -> إدراج العملة')">قراءة الدستور كاملًا</button>
     </div>
     <div class="card">
-        <strong>❓ استفسارات</strong>
-        <button class="btn-action" style="background:#27ae60; color:#fff; margin-top:10px;" onclick="window.location.href='mailto:support@rgig.com'">تحدث مع الآجينت</button>
+        <strong>✈️ قنوات التواصل</strong>
+        <button style="background: #0088cc; color: white;" onclick="window.location.href='https://t.me/YourChannel'">قناة التليجرام الرسمية</button>
     </div>
 </div>
 
-<div class="navbar">
-    <div class="nav-item active-nav" onclick="nav('home', this)">🏠 العرين</div>
-    <div class="nav-item" onclick="nav('market', this)">📊 التداول</div>
-    <div class="nav-item" onclick="nav('shop', this)">🔱 المزاد</div>
-    <div class="nav-item" onclick="nav('social', this)">🤝 العهد</div>
+<div class="nav-bar">
+    <div class="nav-item active-nav" onclick="nav('p1', this)">🏠 العرين</div>
+    <div class="nav-item" onclick="nav('p2', this)">📊 التداول</div>
+    <div class="nav-item" onclick="nav('p3', this)">🔱 المزاد</div>
+    <div class="nav-item" onclick="nav('p4', this)">🤝 العهد</div>
 </div>
 
 <script>
-    let rgig = 0.0036;
-    let dust = 26;
+    let rgig = parseFloat(localStorage.getItem('rgig')) || 0;
     let energy = 100;
 
     function mine(e) {
         if(energy > 0) {
             rgig += 0.0001;
-            dust += 1;
             energy -= 1;
             updateUI();
-            createFloatText(e);
-        } else {
-            alert("الطاقة نفدت! انتظر الشحن");
-        }
+            showPlus(e);
+        } else { alert("استرح قليلاً أيها المحارب!"); }
     }
 
     function updateUI() {
-        document.getElementById('balance').innerText = rgig.toFixed(4);
-        document.getElementById('dust').innerText = dust;
-        document.getElementById('energyText').innerText = energy + "/100";
-        document.getElementById('energyBar').style.width = energy + "%";
+        document.getElementById('bal').innerText = rgig.toFixed(4);
+        document.getElementById('eng').innerText = energy;
+        document.getElementById('engBar').style.width = energy + "%";
+        localStorage.setItem('rgig', rgig);
     }
 
     function nav(id, el) {
@@ -155,25 +145,35 @@
         el.classList.add('active-nav');
     }
 
-    function createFloatText(e) {
-        let span = document.createElement('span');
-        span.innerText = "+0.0001";
-        span.style.position = 'fixed';
-        span.style.left = e.clientX + 'px';
-        span.style.top = e.clientY + 'px';
-        span.style.color = 'var(--gold)';
-        span.style.fontWeight = 'bold';
-        span.style.animation = 'fadeOut 0.8s forwards';
-        document.body.appendChild(span);
-        setTimeout(() => span.remove(), 800);
+    function generateNFT() {
+        if(rgig >= 1) {
+            rgig -= 1;
+            const id = Math.floor(Math.random() * 999);
+            const rarities = ["شائع", "نادر", "أسطوري", "ملك السرداب"];
+            const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+            document.getElementById('nftName').innerText = "بطاقة المحارب #" + id;
+            document.getElementById('nftRarity').innerText = rarity;
+            document.getElementById('nftCard').style.borderColor = "cyan";
+            updateUI();
+            alert("مبروك! لقد ولدت NFT جديد!");
+        } else { alert("تحتاج لـ 1.0 RGig لتوليد NFT"); }
     }
-    
-    // شحن الطاقة تلقائياً
-    setInterval(() => { if(energy < 100) { energy++; updateUI(); } }, 5000);
+
+    function showPlus(e) {
+        let s = document.createElement('span');
+        s.innerText = "+0.0001";
+        s.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; color:var(--gold); font-weight:bold; animation:up 1s forwards;`;
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 1000);
+    }
+
+    function connectWallet() {
+        alert("جاري الاتصال بـ TON Keeper... (يتطلب توثيق 500 مستخدم للفتح)");
+    }
+
+    setInterval(() => { if(energy < 100) { energy++; updateUI(); } }, 3000);
 </script>
 
-<style>
-@keyframes fadeOut { to { transform: translateY(-50px); opacity: 0; } }
-</style>
+<style> @keyframes up { to { transform: translateY(-50px); opacity: 0; } } </style>
 </body>
 </html>
