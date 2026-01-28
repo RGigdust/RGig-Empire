@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGig Empire - الإطلاق الرسمي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #d4af37; --black: #080808; --gray: #151515; --text: #f0f0f0; }
+        body { background-color: var(--black); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0; padding-bottom: 80px; user-select: none; overflow-x: hidden; }
+        .news-ticker { background: #1a1a1a; color: var(--gold); padding: 5px; font-size: 11px; border-bottom: 1px solid var(--gold); overflow: hidden; white-space: nowrap; }
+        .ticker-text { display: inline-block; animation: scroll 30s linear infinite; }
+        .header { display: flex; justify-content: space-between; padding: 15px; background: var(--gray); border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
+        .bal-container { color: var(--gold); font-weight: bold; font-size: 1.1em; }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 10px 20px; border-radius: 20px; font-weight: bold; display: none; z-index: 2000; box-shadow: 0 0 15px var(--gold); }
+        .page { display: none; padding: 15px; animation: fadeIn 0.4s ease; }
+        .active-page { display: block; }
+        .mining-core { text-align: center; border-radius: 25px; padding: 30px 10px; border: 1px solid var(--gold); background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('IMG_٢٠٢٦٠١٢٨_١٦٣٥٤٣_com.google.android.googlequicksearchbox.jpg'); background-size: cover; margin-top: 10px; }
+        .main-btn { width: 140px; height: 140px; cursor: pointer; transition: 0.1s; filter: drop-shadow(0 0 10px var(--gold)); }
+        .main-btn:active { transform: scale(0.9); }
+        .card { background: var(--gray); padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; border-right: 4px solid var(--gold); }
+        .btn-action { background: var(--gold); color: #000; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 12px; }
+        .navbar { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--gold); z-index: 1000; }
+        .nav-item { color: #666; font-size: 10px; text-align: center; cursor: pointer; }
+        .nav-item.active-nav { color: var(--gold); font-weight: bold; }
+        @keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes upFloat { to { transform: translateY(-60px); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<div class="news-ticker">
+    <div class="ticker-text">
+        ✨ مرحباً بكم في عصر الغبار الذهبي: GIG-Dust هو طريقك للثراء .. ₿ BTC يقترب من قمة جديدة .. 📢 الموسم الأول بدأ لتوزيع 250k RGig ..
+    </div>
+</div>
+
+<div class="header">
+    <div class="bal-container">💰 <span id="balance">0.0000</span> RGig</div>
+    <div style="font-size: 11px;">GIG-Dust: <span id="dust">0</span></div>
+</div>
+
+<div id="home-page" class="page active-page">
+    <button onclick="claimDaily()" style="width:100%; background:linear-gradient(45deg, #d4af37, #f1c40f); border:none; padding:12px; border-radius:12px; font-weight:bold; margin-bottom:15px; cursor:pointer;">🎁 الهدية اليومية (تراكمية)</button>
+    <div class="mining-core">
+        <img src="IMG_٢٠٢٦٠١٢٨_٠٥٥٢٢٨.jpg" class="main-btn" onclick="mine(event)">
+        <p style="margin-top: 10px;">التنقيب عن GIG-Dust</p>
+    </div>
+    <div style="background:#1a1a1a; padding:15px; border-radius:15px; margin-top:15px; border:1px solid #333;">
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
+            <span>⚡ وقود الطاقة</span>
+            <span><span id="fuel-num">100</span> / 100</span>
+        </div>
+        <div style="background:#222; height:8px; border-radius:4px; margin-top:8px; overflow:hidden; border:1px solid var(--gold);">
+            <div id="fuel-fill" style="height:100%; background:var(--gold); width:100%; transition:0.3s;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="shop-page" class="page">
+    <h3>🏛️ متجر الأدوات الملكي</h3>
+    <div class="card">
+        <div><strong>مغناطيس الغبار</strong><br><small>+1 Dust لكل نقرة</small><br><span style="color:var(--gold)">1.0 RGig</span></div>
+        <button class="btn-action" onclick="buyUpgrade(1.0, 1)">تطوير</button>
+    </div>
+</div>
+
+<div id="nft-page" class="page">
+    <h3>🔱 مزاد السراديب (GetGems Style)</h3>
+    <div class="card">
+        <div><strong>بطاقة "المؤسس الأول"</strong><br><small>NFT نادر جداً</small><br><span style="color:var(--gold)">القاعدة: 1000 RGig</span></div>
+        <button class="btn-action" onclick="showToast('المزاد يفتح قريباً!')">مزايدة</button>
+    </div>
+</div>
+
+<div id="contact-page" class="page">
+    <h3>🤝 عهد السراديب</h3>
+    <div class="card" style="display:block; text-align:center;">
+        <p>انضم إلينا لتحقيق الحرية المالية</p>
+        <button class="btn-action" style="background:#24A1DE; color:#fff;" onclick="window.location.href='https://t.me/your_telegram'">تليجرام ✈️</button>
+    </div>
+    <div class="card" style="display:block;">
+        <strong>📄 الورقة البيضاء (الخطة)</strong>
+        <p style="font-size:10px;">خارطة طريق الـ 10 سنوات</p>
+        <button class="btn-action" style="width:100%; margin-top:10px;" onclick="showToast('المسودة قيد المراجعة النهائية')">قراءة الدستور</button>
+    </div>
+    <div class="card" style="display:block; border-color:#27ae60;">
+        <strong>❓ مركز الاستفسارات</strong>
+        <p style="font-size:10px;">تواصل مع الآجينت مباشرة</p>
+        <button class="btn-action" style="width:100%; background:#27ae60; color:#fff;" onclick="window.location.href='https://t.me/your_support'">تحدث معنا</button>
+    </div>
+</div>
+
+<div class="navbar">
+    <div class="nav-item active-nav" onclick="nav('home', this)">🏠 العرين</div>
+    <div class="nav-item" onclick="nav('shop', this)">🏛️ المتجر</div>
+    <div class="nav-item" onclick="nav('nft', this)">🔱 المزاد</div>
+    <div class="nav-item" onclick="nav('contact', this)">🤝 العهد</div>
+</div>
+
+<script>
+    let balance = parseFloat(localStorage.getItem('rgig_bal')) || 0;
+    let dust = parseInt(localStorage.getItem('rgig_dust')) || 0;
+    let power = parseInt(localStorage.getItem('rgig_power')) || 1;
+    let fuel = 100;
+    let lastClick = 0;
+
+    function updateUI() {
+        document.getElementById('balance').innerText = balance.toFixed(4);
+        document.getElementById('dust').innerText = dust;
+        document.getElementById('fuel-num').innerText = fuel;
+        document.getElementById('fuel-fill').style.width = fuel + "%";
+        localStorage.setItem('rgig_bal', balance);
+        localStorage.setItem('rgig_dust', dust);
+        localStorage.setItem('rgig_power', power);
+    }
+
+    function mine(e) {
+        let now = Date.now();
+        if (now - lastClick < 200) return;
+        if (fuel >= 1) {
+            lastClick = now;
+            dust += power;
+            // كل 10,000 Dust تتحول تلقائياً لـ 1 RGig (اختياري)
+            if (dust >= 10000) { dust -= 10000; balance += 1; }
+            balance += 0.0001; // الندرة الأساسية
+            fuel -= 1;
+            updateUI();
+            showFloat(e, "+" + power + " Dust");
+        } else {
+            showToast("انتظر شحن وقود النور");
+        }
+    }
+
+    function buyUpgrade(price, boost) {
+        if (balance >= price) { balance -= price; power += boost; updateUI(); showToast("تمت الترقية!"); } 
+        else { showToast("رصيدك غير كافٍ!"); }
+    }
+
+    function claimDaily() {
+        let last = localStorage.getItem('rgig_claim');
+        let today = new Date().toDateString();
+        if (last === today) { showToast("استلمت هديتك بالفعل!"); return; }
+        balance += 0.001;
+        localStorage.setItem('rgig_claim', today);
+        updateUI();
+        showToast("🎁 حصلت على مكافأة اليوم!");
+    }
+
+    function nav(id, el) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(id + '-page').classList.add('active-page');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
+        el.classList.add('active-nav');
+    }
+
+    function showToast(msg) {
+        let t = document.getElementById('toast');
+        t.innerText = msg; t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    function showFloat(e, txt) {
+        let d = document.createElement('div');
+        d.innerText = txt; d.style.position = 'fixed';
+        d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px';
+        d.style.color = '#fff'; d.style.animation = 'upFloat 0.8s forwards';
+        document.body.appendChild(d);
+        setTimeout(() => d.remove(), 800);
+    }
+
+    setInterval(() => { if (fuel < 100) { fuel++; updateUI(); } }, 10000);
+    updateUI();
+</script>
+</body>
+</html>
